@@ -7,7 +7,8 @@ mongoose.connect('localhost:27017/shelfObjects');
 
 var itemSchema = new mongoose.Schema({
 	item: String,
-	url: String
+	url: String,
+	userID: String
 });
 
 var itemModel = mongoose.model('itemModel', itemSchema);
@@ -16,7 +17,8 @@ router.post('/', function(req, res) {
 	console.log('hit me', req.body);
 	var newItem = {
 		item: req.body.item,
-		url: req.body.url
+		url: req.body.url,
+		userID: req.body.userID
 	}
 	itemModel(newItem).save().then(function() {
 		// console.log(response);

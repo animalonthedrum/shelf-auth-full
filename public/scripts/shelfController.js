@@ -13,6 +13,7 @@ myApp.controller('shelfController', shelfController)
 function shelfController(shelfService, $location) {
 	var vm = this;
 	vm.loggedInUser;
+	vm.loggedInID;
 	vm.loginToggle = true;
 	vm.items = [];
 
@@ -42,7 +43,9 @@ function shelfController(shelfService, $location) {
 		};
 		shelfService.logIn(credentials).then(function(response) {
 			console.log(response);
-			vm.loggedInUser = response;
+
+			vm.loggedInUser = response.username;
+			vm.loggedInID = response.id;
 			vm.username = "";
 			vm.password = "";
 		});
@@ -57,7 +60,8 @@ function shelfController(shelfService, $location) {
 	vm.addItem = function() {
 		var itemToSend = {
 			item: vm.item,
-			url: vm.url
+			url: vm.url,
+			userID: vm.loggedInID
 		}
 		vm.url = '';
 		vm.item = '';
@@ -84,10 +88,11 @@ function shelfController(shelfService, $location) {
 		shelfService.checkUser().then(function(res) {
 			console.log(res);
 			if (res.data == "No User Logged") {
-				alert('No User Logged In')
+				sweetAlert("No User Logged In", "I remember my first time with a computer!", "error");
 				$location.path('/');
 			} else {
-				vm.loggedInUser = res.data;
+				vm.loggedInUser = res.data.username;
+				vm.loggedInID = res.data.id;
 			}
 		});
 	}

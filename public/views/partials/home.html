@@ -8,13 +8,14 @@
   <input type="text" ng-model='sc.item' placeholder="Item Name">
   <input type="url" ng-model='sc.url' placeholder="Item Image">
   <button class="addBtn" type="button" ng-click="sc.addItem()">Add</button>
+
 </div>
 
 <div class="row">
   <div class="col-sm-3 itemDetail" ng-repeat='item in sc.items'>
     <p> <img ng-src="{{item.url}}" alt=""> </p>
 
-    <p class="itemName">{{item.item}} <button ng-click="sc.deleteItem(item._id)" type="delete">X</button></p>
+    <p class="itemName">{{item.item}} <button ng-if="item.userID == sc.loggedInID" ng-click="sc.deleteItem(item._id)" type="delete">X</button></p>
 
   </div>
 </div>

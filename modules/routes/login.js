@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 var user = require('../user');
 var bcrypt = require('bcrypt');
 var userLogged;
-
+var userID;
 
 
 router.use(bodyParser.urlencoded({
@@ -16,7 +16,11 @@ router.get('/', function(req, res) {
 	if (userLogged == undefined) {
 		res.send('No User Logged')
 	} else {
-		res.send(userLogged);
+		var userData = {
+			username: userLogged,
+			id: userID
+		}
+		res.send(userData);
 	}
 })
 
@@ -48,7 +52,12 @@ router.post('/', function(req, res) {
 						console.log('found u!');
 						if (isMatch) {
 							userLogged = req.body.username;
-							res.send(req.body.username);
+							userID = user._id;
+							var userData = {
+								username: userLogged,
+								id: userID
+							}
+							res.send(userData);
 						} else {
 							res.send('ah shoot');
 						}
