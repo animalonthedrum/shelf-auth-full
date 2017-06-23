@@ -1,7 +1,20 @@
-<h1>Hello</h1>
-<p>
-  Logged in as: {{sc.loggedInUser}}
-</p>
-<button ng-click='sc.logOut()'>Log Out</button>
-<input type="text" ng-model='sc.item' placeholder="Add item to Shelf">
-<button type="button" ng-click="sc.addItem()">Add</button>
+<div class="homeTitle">
+  <h1 ng-init="sc.init()">HELLO {{sc.loggedInUser}}  </h1>
+  <button class="logout" ng-click='sc.logOut()'>Log Out</button>
+</div>
+<div class="inputValue">
+
+
+  <input type="text" ng-model='sc.item' placeholder="Item Name">
+  <input type="url" ng-model='sc.url' placeholder="Item Image">
+  <button class="addBtn" type="button" ng-click="sc.addItem()">Add</button>
+</div>
+
+<div class="row">
+  <div class="col-sm-3 itemDetail" ng-repeat='item in sc.items'>
+    <p> <img ng-src="{{item.url}}" alt=""> </p>
+
+    <p class="itemName">{{item.item}} <button ng-click="sc.deleteItem(item._id)" type="delete">X</button></p>
+
+  </div>
+</div>

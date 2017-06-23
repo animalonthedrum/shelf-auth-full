@@ -1,8 +1,17 @@
 <div>
-  <input type="text" ng-model="sc.username" placeholder="username">
-  <input type="password" ng-model="sc.password" placeholder="password">
-  <button ng-show="sc.loginToggle" type="submit" name="button" ng-click='sc.logIn()'>Login</button>
-  <button ng-hide="sc.loginToggle" type="submit" name="button" ng-click="sc.register()">Register</button>
-  <a ng-show="sc.loginToggle" ng-click="sc.toggleLogin()">Register</a>
-  <a ng-hide="sc.loginToggle" ng-click="sc.toggleLogin()">Login</a>
+  <div class="loginInput">
+    <input type="text" ng-model="sc.username" placeholder="username">
+  </div>
+  <div class="loginInput">
+    <input type="password" ng-model="sc.password" placeholder="password">
+  </div>
+  <div class="loginInput">
+    <button ng-show="sc.loginToggle" type="submit" name="button" ng-click='sc.logIn()'>Login</button>
+    <button ng-hide="sc.loginToggle" type="submit" name="button" ng-click="sc.register()">Register</button>
+    <a href="#!" ng-show="sc.loginToggle" ng-click="sc.toggleLogin()">Register</a>
+    <a href='#!' ng-hide="sc.loginToggle" ng-click="sc.toggleLogin()">Login</a>
+  </div>
+  <div class="footer">
+    <footer>AN ONLINE SHELF STORAGE SYSTEM!</footer>
+  </div>
 </div>

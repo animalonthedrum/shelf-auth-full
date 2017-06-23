@@ -31,6 +31,26 @@ myApp.service('shelfService', function($http, $location) {
 		});
 	};
 
+	sv.getItems = function() {
+		return $http.get('/shelf').then(function(response) {
+			console.log('get response:', response);
+			return response;
+		});
+	};
+
+	sv.checkUser = function() {
+		return $http.get('/login').then(function(response) {
+			console.log(response);
+			return response;
+		});
+	}
+
+	sv.deleteItem = function(itemId) {
+		console.log('in delete service', itemId);
+		return $http.delete('/shelf/' + itemId).then(function(response) {
+			sv.deletedItem = response;
+		});
+	};
 
 
 });

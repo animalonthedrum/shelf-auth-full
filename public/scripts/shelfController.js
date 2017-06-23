@@ -14,6 +14,7 @@ function shelfController(shelfService, $location) {
 	var vm = this;
 	vm.loggedInUser;
 	vm.loginToggle = true;
+	vm.items = [];
 
 	vm.toggleLogin = function() {
 		vm.loginToggle = !vm.loginToggle
@@ -47,7 +48,6 @@ function shelfController(shelfService, $location) {
 		});
 	};
 
-
 	vm.logOut = function() {
 		console.log('logging out', vm.loggedInUser);
 		vm.loggedInUser = '';
@@ -56,39 +56,49 @@ function shelfController(shelfService, $location) {
 
 	vm.addItem = function() {
 		var itemToSend = {
-			item: vm.item
+			item: vm.item,
+			url: vm.url
 		}
+		vm.url = '';
+		vm.item = '';
 		shelfService.addItem(itemToSend).then(function(res) {
 			console.log(res);
+			vm.getItems();
 		});
 	};
 
-	// vm.getShelves = function() {
-	// 	console.log('in controller, getShelvs');
-	// 	shelfService.retrieveMessages().then(function() {
-	// 		vm.shelfObject = shelfService.data;
-	// 		console.log('back in controller with:', vm.shelfObject);
-	// 	});
-	// }; //end
+	vm.init = function() {
+		vm.checkUser();
+		vm.getItems();
+	}
 
+	vm.getItems = function() {
+		console.log('in controller, getShelvs');
+		shelfService.getItems().then(function(res) {
+			console.log('in ctrl:', res);
+			vm.items = res.data;
+		});
+	}
 
-	//
-	// 	if (vm.body == '') {
-	// 		alert('do NOT spam us with your empty messages!!!');
-	// 	} // end empty message
-	// 	else {
-	// 		// create object to send
-	// 		var newMessage = {
-	// 			name: vm.name,
-	// 			body: vm.body
-	// 		}; // end newMessage
-	// 		console.log('in controller sending:', newMessage);
-	// 		shelfService.newMessage(newMessage).then(function() {
-	// 			console.log('back in controller after post');
-	// 			vm.getMessages();
-	// 			vm.body = '';
-	// 		});
-	// 	} // end message exxists
-	// };
+	vm.checkUser = function() {
+		shelfService.checkUser().then(function(res) {
+			console.log(res);
+			if (res.data == "No User Logged") {
+				alert('No User Logged In')
+				$location.path('/');
+			} else {
+				vm.loggedInUser = res.data;
+			}
+		});
+	}
 
-} //end controller
+	vm.deleteItem = function(index) {
+		console.log('item to delete:', index);
+		shelfService.deleteItem(index).then(function() {
+			console.log('back in controller', shelfService.deletedItem);
+			vm.delete = shelfService.deletedItem;
+			vm.getItems();
+		});
+	};
+
+}

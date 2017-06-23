@@ -3,6 +3,7 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 var user = require('../user');
 var bcrypt = require('bcrypt');
+var userLogged;
 
 
 
@@ -10,6 +11,14 @@ router.use(bodyParser.urlencoded({
 	extended: true
 }));
 router.use(bodyParser.json());
+
+router.get('/', function(req, res) {
+	if (userLogged == undefined) {
+		res.send('No User Logged')
+	} else {
+		res.send(userLogged);
+	}
+})
 
 
 router.post('/', function(req, res) {
@@ -38,6 +47,7 @@ router.post('/', function(req, res) {
 						// no error with bcrypt
 						console.log('found u!');
 						if (isMatch) {
+							userLogged = req.body.username;
 							res.send(req.body.username);
 						} else {
 							res.send('ah shoot');
